@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
 
 void main() {
+  var config =Config().route;
   runApp(MaterialApp(
     title: 'Named Routes Demo',
     // Start the app with the "/" named route. In this case, the app starts
     // on the FirstScreen widget.
     initialRoute: '/',
-    routes: {
-      // When navigating to the "/" route, build the FirstScreen widget.
-      '/': (context) => FirstScreen(),
-      // When navigating to the "/second" route, build the SecondScreen widget.
-      '/second': (context) => SecondScreen(),
-    },
+    routes:config,
   ));
+}
+
+class Config {
+  var _route = {
+    // When navigating to the "/" route, build the FirstScreen widget.
+    '/': (context) => FirstScreen(),
+    // When navigating to the "/second" route, build the SecondScreen widget.
+    '/second': (context) => SecondScreen(),
+  };
+  var _config;
+  Config(){
+    print("Config init");
+  }
+  Map get route=>this._route;
+  Map get config=>this._config;
 }
 
 class FirstScreen extends StatelessWidget {
