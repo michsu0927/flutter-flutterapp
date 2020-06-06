@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  var r =Route().route;
+  var r =AppRoute().route;
 
   runApp(MaterialApp(
     title: 'Named Routes Demo',
@@ -12,10 +12,10 @@ void main() {
   ));
 }
 
-class Route {
+class AppRoute {
   var _route ;
 
-  Route(){
+  AppRoute(){
     print("Config init");
     _route = {
       // When navigating to the "/" route, build the FirstScreen widget.
@@ -33,6 +33,10 @@ class Route {
   //Map get route=>this._route;
   Map get route{
     return _route;
+  }
+
+  bool checkKey(String k){
+    return _route.containsKey(k);
   }
 }
 
@@ -68,8 +72,17 @@ class SecondScreen extends StatelessWidget {
           onPressed: () {
             // Navigate back to the first screen by popping the current route
             // off the stack.
-            //Navigator.pop(context);
-            Navigator.pushNamed(context, '/third');
+            if(Navigator.canPop(context)){
+              //check if name exist
+              if(AppRoute().checkKey('/third'))
+              {
+                Navigator.popAndPushNamed(context, '/third');
+              }
+              else{
+                Navigator.popAndPushNamed(context, '/');
+              }
+            }
+            //Navigator.pushNamed(context, '/third');
           },
           child: Text('Go third!'),
         ),
@@ -90,6 +103,7 @@ class ThirdScreen extends StatelessWidget {
           onPressed: () {
             // Navigate back to the first screen by popping the current route
             // off the stack.
+            //now add check
             Navigator.pushNamedAndRemoveUntil(context, '/' , (route) => false);
           },
           child: Text('Go Home!'),
