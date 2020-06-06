@@ -13,22 +13,27 @@ void main() {
 }
 
 class Route {
-  var _route = {
-    // When navigating to the "/" route, build the FirstScreen widget.
-    '/': (context) => FirstScreen(),
-    // When navigating to the "/second" route, build the SecondScreen widget.
-    '/second': (context) => SecondScreen(),
-  };
+  var _route ;
 
   Route(){
     print("Config init");
+    _route = {
+      // When navigating to the "/" route, build the FirstScreen widget.
+      '/': (context) => FirstScreen(),
+      // When navigating to the "/second" route, build the SecondScreen widget.
+      '/second': (context) => SecondScreen(),
+      '/third': (context) => ThirdScreen(),
+    };
   }
   //setters
   void set route(Map routeSetting){
     _route = routeSetting;
   }
   //getters
-  Map get route=>this._route;
+  //Map get route=>this._route;
+  Map get route{
+    return _route;
+  }
 }
 
 class FirstScreen extends StatelessWidget {
@@ -63,9 +68,31 @@ class SecondScreen extends StatelessWidget {
           onPressed: () {
             // Navigate back to the first screen by popping the current route
             // off the stack.
-            Navigator.pop(context);
+            //Navigator.pop(context);
+            Navigator.pushNamed(context, '/third');
           },
-          child: Text('Go back!'),
+          child: Text('Go third!'),
+        ),
+      ),
+    );
+  }
+}
+
+class ThirdScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Second Screen"),
+      ),
+      body: Center(
+        child: RaisedButton(
+          onPressed: () {
+            // Navigate back to the first screen by popping the current route
+            // off the stack.
+            Navigator.pushNamedAndRemoveUntil(context, '/' , (route) => false);
+          },
+          child: Text('Go Home!'),
         ),
       ),
     );
