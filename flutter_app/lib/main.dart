@@ -56,6 +56,39 @@ class FirstScreen extends StatelessWidget {
           },
         ),
       ),
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Text('Drawer Header'),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              padding: EdgeInsets.all(1),
+            ),
+            ListTile(
+              title: Text('Item 1'),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            ListTile(
+              title: Text('Item 2'),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+          ],
+        ),
+      )
+      ,
     );
   }
 }
@@ -104,7 +137,9 @@ class ThirdScreen extends StatelessWidget {
             // Navigate back to the first screen by popping the current route
             // off the stack.
             //now add check
-            Navigator.pushNamedAndRemoveUntil(context, '/' , (route) => false);
+            if(AppRoute().checkKey('/')){
+              Navigator.pushNamedAndRemoveUntil(context, '/' , (route) => false);
+            }
           },
           child: Text('Go Home!'),
           fillColor: Colors.amber,
