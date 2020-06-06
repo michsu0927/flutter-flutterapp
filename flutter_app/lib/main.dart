@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -64,12 +65,19 @@ class FirstScreen extends StatelessWidget {
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
-              child: Text('Drawer Header'),
-              decoration: BoxDecoration(
-                color: Colors.blue,
+            Container(
+              child:SizedBox(
+                height: 80,
+                child:DrawerHeader(
+                  child: Center(
+                    child: Text('Drawer Header'),
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                  ),
+                  //padding: EdgeInsets.symmetric(vertical: 10),
+                ),
               ),
-              padding: EdgeInsets.all(1),
             ),
             ListTile(
               title: Text('Item 1'),
