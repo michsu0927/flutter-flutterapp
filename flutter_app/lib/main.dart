@@ -65,16 +65,19 @@ class FirstScreen extends StatelessWidget {
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: <Widget>[
-            SizedBox(
-              height: 80,
-              child:DrawerHeader(
-                child: Center(
-                  child: Text('Drawer Header'),
+            InkWell(
+              onTap: (){ print('Taped!')},
+              child: SizedBox(
+                height: 80,
+                child:DrawerHeader(
+                  child: Center(
+                    child: Text('Drawer Header'),
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                  ),
+                  //padding: EdgeInsets.symmetric(vertical: 10),
                 ),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                //padding: EdgeInsets.symmetric(vertical: 10),
               ),
             ),
             ListTile(
