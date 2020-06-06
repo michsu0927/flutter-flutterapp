@@ -86,13 +86,14 @@ class ThirdScreen extends StatelessWidget {
         title: Text("Second Screen"),
       ),
       body: Center(
-        child: RaisedButton(
+        child: RawMaterialButton(
           onPressed: () {
             // Navigate back to the first screen by popping the current route
             // off the stack.
             Navigator.pushNamedAndRemoveUntil(context, '/' , (route) => false);
           },
           child: Text('Go Home!'),
+          fillColor: Colors.amber,
         ),
       ),
     );
