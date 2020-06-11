@@ -64,6 +64,60 @@ class MyRouteSetting{
 //OR Map get route=>this._route;
 }
 
+class MyDrawer extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Drawer(
+      // Add a ListView to the drawer. This ensures the user can scroll
+      // through the options in the drawer if there isn't enough vertical
+      // space to fit everything.
+      child: ListView(
+        // Important: Remove any padding from the ListView.
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          InkWell(
+            onTap: (){ print('MyDrawer Header Taped!');},
+            child: SizedBox(
+              height: 80,
+              child:DrawerHeader(
+                child: Center(
+                  child: Text('Drawer Header'),
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                //padding: EdgeInsets.symmetric(vertical: 10),
+              ),
+            ),
+          ),
+          ListTile(
+            title: Text('Item second 2'),
+            onTap: () {
+              // Update the state of the app
+              // ...
+              //Navigator.of(context).pushNamedAndRemoveUntil('/second',(Route<dynamic> route) => false);
+              Navigator.pushNamedAndRemoveUntil(context, '/second', (route) => false);
+
+              // Then close the drawer
+              //Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            title: Text('Item third 3'),
+            onTap: () {
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              Navigator.pushAndRemoveUntil(context, SlideRightRoute(page: ThirdScreen()) , (route) => false);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -82,53 +136,7 @@ class FirstScreen extends StatelessWidget {
           },
         ),
       ),
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            InkWell(
-              onTap: (){ print('Taped!');},
-              child: SizedBox(
-                height: 80,
-                child:DrawerHeader(
-                  child: Center(
-                    child: Text('Drawer Header'),
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                  ),
-                  //padding: EdgeInsets.symmetric(vertical: 10),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Item second 2'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                //Navigator.of(context).pushNamedAndRemoveUntil('/second',(Route<dynamic> route) => false);
-                Navigator.pushNamedAndRemoveUntil(context, '/second', (route) => false);
-
-                // Then close the drawer
-                //Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Item third 3'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pushAndRemoveUntil(context, SlideRightRoute(page: ThirdScreen()) , (route) => false);
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: MyDrawer(),
     );
   }
 }
@@ -170,53 +178,7 @@ class SecondScreen extends StatelessWidget {
           width: 200,
         ),
       ),
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            InkWell(
-              onTap: (){ print('Taped!');},
-              child: SizedBox(
-                height: 80,
-                child:DrawerHeader(
-                  child: Center(
-                    child: Text('Drawer Header'),
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                  ),
-                  //padding: EdgeInsets.symmetric(vertical: 10),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Item second 2'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                //Navigator.of(context).pushNamedAndRemoveUntil('/second',(Route<dynamic> route) => false);
-                Navigator.pushNamedAndRemoveUntil(context, '/second', (route) => false);
-
-                // Then close the drawer
-                //Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Item third 3'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pushAndRemoveUntil(context, SlideRightRoute(page: ThirdScreen()) , (route) => false);
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: MyDrawer(),
       backgroundColor: Colors.yellow,
     );
   }
@@ -257,53 +219,7 @@ class ThirdScreen extends StatelessWidget {
           width: 200,
         ),
       ),
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            InkWell(
-              onTap: (){ print('Taped!');},
-              child: SizedBox(
-                height: 80,
-                child:DrawerHeader(
-                  child: Center(
-                    child: Text('Drawer Header'),
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                  ),
-                  //padding: EdgeInsets.symmetric(vertical: 10),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Item second 2'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                //Navigator.of(context).pushNamedAndRemoveUntil('/second',(Route<dynamic> route) => false);
-                Navigator.pushNamedAndRemoveUntil(context, '/second', (route) => false);
-
-                // Then close the drawer
-                //Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Item third 3'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pushAndRemoveUntil(context, SlideRightRoute(page: ThirdScreen()) , (route) => false);
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: MyDrawer(),
       backgroundColor: Colors.deepPurple[100],
     );
   }
