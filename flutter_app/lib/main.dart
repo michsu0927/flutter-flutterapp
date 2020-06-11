@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'my_flutter_app_icons.dart';
 
 void main() {
   runApp(MyApp());
@@ -113,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
-        child: Icon(FontAwesomeIcons.solidAddressBook),
+        child: Icon(MyFlutterApp.scissors),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
