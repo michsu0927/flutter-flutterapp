@@ -1,23 +1,48 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  var r =AppRoute().route;
+  runApp(MyApp());
+}
+//https://script.google.com/macros/s/AKfycbyDfZxKNhhKaxApoK9sM9wDafEf0xu70z_0Pda5bZz-5Nr_iCzf/exec
+class MyApp extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    var _myroute = MyRouteSetting().route;
+    //這個function將輸出內容
+    //context將會有一些app的基本資訊
+    return MaterialApp(
+      title: 'Named Routes Demo',
+      // Start the app with the "/" named route. In this case, the app starts
+      // on the FirstScreen widget.
+      initialRoute: '/',
+//      onGenerateRoute: (settings) {
+//        print("~~~~~~~~~~~~~~~~~~~~~~");
+//        print(settings.name);
+//        if (settings.name == "/second") {
+//          return PageRouteBuilder(
+//            pageBuilder: (_, __, ___) => FirstScreen(),
+//            transitionsBuilder: (_, anim, __, child) {
+//              return SlideTransition( position: Tween<Offset>(
+//                begin: const Offset(1, 0), //way fade in out
+//                end: Offset.zero,
+//              ).animate(anim) , child: child);
+//            },
+//          );
+//        }
+//        // unknown route
+//        return MaterialPageRoute(builder: (context) => SecondScreen());
+//      },
+      routes: _myroute,
+    );
+    //最後輸出結果要return出去他才知道
+    //MaterialApp是整個平化app的最外層
+  }
 
-  runApp(MaterialApp(
-    title: 'Named Routes Demo',
-    // Start the app with the "/" named route. In this case, the app starts
-    // on the FirstScreen widget.
-    initialRoute: '/',
-    routes:r,
-  ));
 }
 
-class AppRoute {
-  var _route ;
-
-  AppRoute(){
-    print("Config init");
+class MyRouteSetting{
+  var _route;
+  MyRouteSetting(){
     _route = {
       // When navigating to the "/" route, build the FirstScreen widget.
       '/': (context) => FirstScreen(),
@@ -26,19 +51,17 @@ class AppRoute {
       '/third': (context) => ThirdScreen(),
     };
   }
-  //setters
-  void set route(Map routeSetting){
-    _route = routeSetting;
+
+  //setter
+  void set route(Map r) {
+    _route = r;
   }
-  //getters
-  //Map get route=>this._route;
+
+  //getter
   Map get route{
     return _route;
   }
-
-  bool checkKey(String k){
-    return _route.containsKey(k);
-  }
+//OR Map get route=>this._route;
 }
 
 class FirstScreen extends StatelessWidget {
@@ -53,7 +76,9 @@ class FirstScreen extends StatelessWidget {
           child: Text('Launch screen'),
           onPressed: () {
             // Navigate to the second screen using a named route.
-            Navigator.pushNamed(context, '/second');
+            //Navigator.pushNamed(context, '/second');
+            //go to second
+            Navigator.popAndPushNamed(context, '/second');
           },
         ),
       ),
@@ -66,7 +91,7 @@ class FirstScreen extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: <Widget>[
             InkWell(
-              onTap: (){ print('Taped!')},
+              onTap: (){ print('Taped!');},
               child: SizedBox(
                 height: 80,
                 child:DrawerHeader(
@@ -81,23 +106,29 @@ class FirstScreen extends StatelessWidget {
               ),
             ),
             ListTile(
-              title: Text('Item 1'),
+              title: Text('Item second 2'),
               onTap: () {
-                // Update the state of the app.
+                // Update the state of the app
                 // ...
+                //Navigator.of(context).pushNamedAndRemoveUntil('/second',(Route<dynamic> route) => false);
+                Navigator.pushNamedAndRemoveUntil(context, '/second', (route) => false);
+
+                // Then close the drawer
+                //Navigator.pop(context);
               },
             ),
             ListTile(
-              title: Text('Item 2'),
+              title: Text('Item third 3'),
               onTap: () {
-                // Update the state of the app.
+                // Update the state of the app
                 // ...
+                // Then close the drawer
+                Navigator.pushAndRemoveUntil(context, SlideRightRoute(page: ThirdScreen()) , (route) => false);
               },
             ),
           ],
         ),
-      )
-      ,
+      ),
     );
   }
 }
@@ -110,50 +141,197 @@ class SecondScreen extends StatelessWidget {
         title: Text("Second Screen"),
       ),
       body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            // Navigate back to the first screen by popping the current route
-            // off the stack.
-            if(Navigator.canPop(context)){
-              //check if name exist
-              if(AppRoute().checkKey('/third'))
-              {
-                Navigator.popAndPushNamed(context, '/third');
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.red[200],width: 1),
+              borderRadius: BorderRadius.all(
+                  Radius.circular(10.0) //         <--- border radius here
+              )
+          ),
+          child: RaisedButton(
+            onPressed: () {
+              // Navigate back to the first screen by popping the current route
+              // off the stack.
+
+              if(Navigator.canPop(context)){
+                Navigator.pop(context);
               }
               else{
-                Navigator.popAndPushNamed(context, '/');
+                //Navigator.popAndPushNamed(context, '/third');
+                //Navigator.push(context, SlideRightRoute(page: ThirdScreen()));
+                Navigator.pushReplacement(context, SlideRightRoute(page: ThirdScreen()));
               }
-            }
-            //Navigator.pushNamed(context, '/third');
-          },
-          child: Text('Go third!'),
+
+            },
+            child: Text('Go third!'),
+            color: Colors.white,
+          ),
+          width: 200,
         ),
       ),
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            InkWell(
+              onTap: (){ print('Taped!');},
+              child: SizedBox(
+                height: 80,
+                child:DrawerHeader(
+                  child: Center(
+                    child: Text('Drawer Header'),
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                  ),
+                  //padding: EdgeInsets.symmetric(vertical: 10),
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text('Item second 2'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                //Navigator.of(context).pushNamedAndRemoveUntil('/second',(Route<dynamic> route) => false);
+                Navigator.pushNamedAndRemoveUntil(context, '/second', (route) => false);
+
+                // Then close the drawer
+                //Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Item third 3'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pushAndRemoveUntil(context, SlideRightRoute(page: ThirdScreen()) , (route) => false);
+              },
+            ),
+          ],
+        ),
+      ),
+      backgroundColor: Colors.yellow,
     );
   }
 }
+
 
 class ThirdScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Second Screen"),
+        title: Text("ThirdScreen Screen"),
       ),
       body: Center(
-        child: RawMaterialButton(
-          onPressed: () {
-            // Navigate back to the first screen by popping the current route
-            // off the stack.
-            //now add check
-            if(AppRoute().checkKey('/')){
-              Navigator.pushNamedAndRemoveUntil(context, '/' , (route) => false);
-            }
-          },
-          child: Text('Go Home!'),
-          fillColor: Colors.amber,
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.red[200],width: 1),
+              borderRadius: BorderRadius.all(
+                  Radius.circular(10.0) //         <--- border radius here
+              )
+          ),
+          child: RaisedButton(
+            onPressed: () {
+              // Navigate back to the first screen by popping the current route
+              // off the stack.
+              //back to /
+              if(Navigator.canPop(context)){
+                Navigator.pop(context);
+              }
+              else{
+                Navigator.popAndPushNamed(context, '/');
+              }
+            },
+            child: Text('Go Home!'),
+            color: Colors.white,
+          ),
+          width: 200,
         ),
       ),
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            InkWell(
+              onTap: (){ print('Taped!');},
+              child: SizedBox(
+                height: 80,
+                child:DrawerHeader(
+                  child: Center(
+                    child: Text('Drawer Header'),
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                  ),
+                  //padding: EdgeInsets.symmetric(vertical: 10),
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text('Item second 2'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                //Navigator.of(context).pushNamedAndRemoveUntil('/second',(Route<dynamic> route) => false);
+                Navigator.pushNamedAndRemoveUntil(context, '/second', (route) => false);
+
+                // Then close the drawer
+                //Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Item third 3'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pushAndRemoveUntil(context, SlideRightRoute(page: ThirdScreen()) , (route) => false);
+              },
+            ),
+          ],
+        ),
+      ),
+      backgroundColor: Colors.deepPurple[100],
     );
   }
+}
+
+class SlideRightRoute extends PageRouteBuilder {
+  final Widget page;
+  SlideRightRoute({this.page})
+      : super(
+    pageBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        ) =>
+    page,
+    transitionsBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        Widget child,
+        ) =>
+        SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(1 , 0), //way fade in out;(1,0) r->l ;(1,1) rd->lt;(1,-1) rt->ld;(0, 0) fadein;(0,-1) t->d;(0,1) d->t;(-1,1) ld->rt;(-1, 0) l->r;(-1, -1) lt->rd;use factor;
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+
+        ),
+  );
 }
